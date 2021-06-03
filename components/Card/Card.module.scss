@@ -1,0 +1,36 @@
+@import "../../styles/mixins.scss";
+@import "../../styles/variables.scss";
+
+.Card {
+  width: 100%;
+  @include bg("grey-50");
+  @include rounded("lg");
+  @include box-shadow(8px, 4px, 10px, rgba(0, 0, 0, 0.2));
+  transition: all 0.3s ease;
+  &:hover {
+    cursor: pointer;
+    transform: translateY(-5px);
+  }
+}
+
+.CardImage {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  @include border-radius("lg", "lg", "xs", "xs");
+}
+
+.Spacing {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.BusinessText {
+  @include color("teal-700", $opacity: 1);
+  @include fontWeight(600);
+  @include responsiveFontSize();
+}
+
+.SecondaryText {
+  @include color("grey-700");
+}

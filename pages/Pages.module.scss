@@ -1,0 +1,8 @@
+@import "../styles/mixins.scss";
+
+.Title {
+  margin-top: 3rem;
+  @include fontSize("4xl");
+  @include fontWeight(600);
+  @include color("grey-600");
+}

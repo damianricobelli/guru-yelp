@@ -1,0 +1,8 @@
+@import "../../styles/mixins.scss";
+
+.Logo {
+  @include color("teal-500");
+  margin-left: 1rem;
+  @include fontSize("4xl");
+  @include fontWeight(700);
+}

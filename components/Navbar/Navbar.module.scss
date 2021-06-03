@@ -1,0 +1,10 @@
+@import "../../styles/mixins.scss";
+
+.Navbar {
+  background-color: white;
+  min-height: 60px;
+  padding-top: 6px;
+  z-index: 90;
+  @include rounded();
+  @include box-shadow();
+}

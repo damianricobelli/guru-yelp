@@ -1,0 +1,6 @@
+@import "../../styles/mixins.scss";
+
+.Button {
+  @include button("teal-400");
+  margin-right: 1rem;
+}
