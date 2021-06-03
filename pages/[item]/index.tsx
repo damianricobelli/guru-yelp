@@ -27,13 +27,7 @@ const data = {
 
 function Rating({ rating, numReviews }: RatingProps) {
   return (
-    <div
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        display: "flex"
-      }}
-    >
+    <div className="FlexRowCenter">
       <Grid item>
         {Array(5)
           .fill("")
@@ -43,7 +37,7 @@ function Rating({ rating, numReviews }: RatingProps) {
               return (
                 <BsStarFill
                   key={i}
-                  size={24}
+                  size={18}
                   style={{ marginLeft: "1" }}
                   color={i < rating ? "#319795" : "#cbd5e0"}
                 />
@@ -51,13 +45,13 @@ function Rating({ rating, numReviews }: RatingProps) {
             }
             if (roundedRating - i === 0.5) {
               return (
-                <BsStarHalf size={24} key={i} style={{ marginLeft: "1" }} />
+                <BsStarHalf size={18} key={i} style={{ marginLeft: "1" }} />
               )
             }
-            return <BsStar size={24} key={i} style={{ marginLeft: "1" }} />
+            return <BsStar size={18} key={i} style={{ marginLeft: "1" }} />
           })}
       </Grid>
-      <Grid style={{ marginLeft: 10, fontSize: 24 }}>
+      <Grid style={{ marginLeft: 10, fontSize: 18 }}>
         <h5 style={{ margin: 0 }}>{numReviews} comentarios</h5>
       </Grid>
     </div>
@@ -66,13 +60,7 @@ function Rating({ rating, numReviews }: RatingProps) {
 
 function RatingReview({ rating }: RatingProps) {
   return (
-    <div
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        display: "flex"
-      }}
-    >
+    <div className="FlexRowCenter">
       <Grid item>
         {Array(5)
           .fill("")
@@ -121,22 +109,13 @@ const Item: React.FC<indexProps> = ({}) => {
             src={data.imageURL}
             alt={`Picture of ${data.name}`}
           />
-          <div
-            style={{
-              flexDirection: "column",
-              display: "flex"
-            }}
-          >
-            <div
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                display: "flex"
-              }}
-            >
+          <div className="FlexColumn">
+            <div className={classes.Title}>
               <h1>1. Rock & Feller's</h1>
-              <span className={classes.StatusClose}>Cerrado</span>
-              <span className={classes.StatusOpen}>$$$</span>
+              <div className={classes.Status}>
+                <span className={classes.StatusClose}>Cerrado</span>
+                <span className={classes.StatusOpen}>$$$</span>
+              </div>
             </div>
             <Rating rating={data.rating} numReviews={data.numReviews} />
             <span style={{ paddingTop: 20 }}>
@@ -155,18 +134,15 @@ const Item: React.FC<indexProps> = ({}) => {
               Días y horarios
             </h4>
             <div
+              className="FlexColumn"
               style={{
-                flexDirection: "column",
-                display: "flex",
                 gap: 8,
                 marginTop: 14
               }}
             >
               <div
+                className="FlexRowCenter"
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  display: "flex",
                   gap: 12
                 }}
               >
@@ -176,10 +152,8 @@ const Item: React.FC<indexProps> = ({}) => {
                 </span>
               </div>
               <div
+                className="FlexRowCenter"
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  display: "flex",
                   gap: 12
                 }}
               >
@@ -193,22 +167,24 @@ const Item: React.FC<indexProps> = ({}) => {
         </div>
         <div className={classes.GridReviewsContainer}>
           <div
+            className="FlexColumn"
             style={{
-              flexDirection: "column",
-              display: "flex",
               gap: 20
             }}
           >
             <div
+              className="FlexRowCenter"
               style={{
-                flexDirection: "row",
-                alignItems: "center",
-                display: "flex",
                 gap: 12
               }}
             >
               <HiOutlineChatAlt2 size={24} />
-              <h2 style={{ margin: "0 0 0 0" }}>Comentarios destacados</h2>
+              <h2
+                style={{ margin: "0 0 0 0" }}
+                className={classes.CommentaryTitle}
+              >
+                Comentarios destacados
+              </h2>
             </div>
             <div
               className={classes.Review}
@@ -219,10 +195,8 @@ const Item: React.FC<indexProps> = ({}) => {
               }}
             >
               <div
+                className="FlexRowCenter"
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  display: "flex",
                   gap: 12
                 }}
               >
@@ -232,12 +206,7 @@ const Item: React.FC<indexProps> = ({}) => {
                   src={data.imageURL}
                   alt={`Picture of ${data.name}`}
                 />
-                <div
-                  style={{
-                    flexDirection: "column",
-                    display: "flex"
-                  }}
-                >
+                <div className="FlexColumn" style={{}}>
                   <span style={{ fontWeight: 600 }}>Agustina D.</span>
                   <span>Rosario, Argentina</span>
                 </div>

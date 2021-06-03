@@ -46,6 +46,25 @@
   }
 }
 
+.Title {
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  @include xs {
+    flex-direction: column;
+    align-items: flex-start;
+    h1 {
+      @include fontSize("2xl");
+    }
+  }
+}
+
+.CommentaryTitle {
+  @include xs {
+    @include fontSize("lg");
+  }
+}
+
 .Review {
   padding: 20px;
   @include bg("grey-200");
@@ -79,6 +98,15 @@
   @include bg("gray-50");
 }
 
+.Status {
+  @include xs {
+    position: relative;
+    bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+
 .StatusClose {
   margin-left: 20px;
   padding: 6px 10px;
@@ -86,6 +114,10 @@
   @include rounded("2xl");
   @include fontSize("xs");
   @include color("white-full");
+  @include xs {
+    margin-left: 0;
+    padding: 3px 6px;
+  }
 }
 
 .StatusOpen {
@@ -95,4 +127,7 @@
   @include rounded("2xl");
   @include fontSize("xs");
   @include color("white-full");
+  @include xs {
+    padding: 3px 6px;
+  }
 }
