@@ -79,8 +79,8 @@
 }
 
 .CardImage {
-  height: 100%;
   width: 100%;
+  max-height: 500px;
   object-fit: cover;
   @include border-radius("md", "md", "xs", "xs");
 }

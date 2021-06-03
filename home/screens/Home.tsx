@@ -115,11 +115,11 @@ const Home: React.FC<HomeProps> = ({ initialBusiness }) => {
         <DesktopSearch>{SearchLocationComponent}</DesktopSearch>
       )}
       <div className="GridContainer">
-        {initialBusiness?.map((item: IItem, i: number) => (
+        {initialBusiness?.map((item: IItem) => (
           <div
             key={uuid()}
             style={{ paddingTop: 50 }}
-            onClick={() => handleClickItem(i.toString())}
+            onClick={() => handleClickItem(item.id)}
           >
             <Card data={item} />
           </div>
