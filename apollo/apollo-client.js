@@ -2,7 +2,7 @@ import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client"
 import { setContext } from "@apollo/client/link/context"
 
 const httpLink = createHttpLink({
-  uri: "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/graphql"
+  uri: "https://api.yelp.com/v3/graphql"
 })
 
 const authLink = setContext((_, { headers }) => {

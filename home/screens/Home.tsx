@@ -9,7 +9,27 @@ import SearchLocation from "../components/SearchInput"
 import useWindowSize from "@hooks/useWindowSize"
 import { v4 as uuid } from "uuid"
 
-interface HomeProps {}
+interface HomeProps {
+  initialBusiness: IItem[]
+}
+
+export interface IItem {
+  name: string
+  display_phone: string
+  phone: string
+  id: string
+  location: {
+    __typename: string
+    address1: string
+    city: string
+    state: string
+    country: string
+  }
+  rating: number
+  review_count: number
+  __typename: string
+  photos: string[]
+}
 
 const MobileSearch: React.FC = ({ children }) => (
   <Grid
@@ -60,7 +80,7 @@ const DesktopSearch: React.FC = ({ children }) => (
   </Grid>
 )
 
-const Home: React.FC<HomeProps> = ({}) => {
+const Home: React.FC<HomeProps> = ({ initialBusiness }) => {
   const router = useRouter()
   const windowSize = useWindowSize()
   const [query, setQuery] = React.useState<string>("")
@@ -95,17 +115,15 @@ const Home: React.FC<HomeProps> = ({}) => {
         <DesktopSearch>{SearchLocationComponent}</DesktopSearch>
       )}
       <div className="GridContainer">
-        {Array(10)
-          .fill("")
-          .map((el: any, i: number) => (
-            <div
-              key={uuid()}
-              style={{ paddingTop: 50 }}
-              onClick={() => handleClickItem(i.toString())}
-            >
-              <Card />
-            </div>
-          ))}
+        {initialBusiness?.map((item: IItem, i: number) => (
+          <div
+            key={uuid()}
+            style={{ paddingTop: 50 }}
+            onClick={() => handleClickItem(i.toString())}
+          >
+            <Card data={item} />
+          </div>
+        ))}
       </div>
     </>
   )

@@ -13,9 +13,26 @@
   }
 }
 
+.GridContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  @include xs {
+    grid-template-columns: 1fr;
+  }
+  @include sm {
+    grid-template-columns: 1fr;
+  }
+  @include lg {
+    grid-template-columns: 1fr 1fr;
+  }
+  @include xl {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .CardImage {
   width: 100%;
-  height: 150px;
+  height: 180px;
   object-fit: cover;
   @include border-radius("md", "md", "xs", "xs");
 }
@@ -29,6 +46,8 @@
   @include color("teal-700", $opacity: 1);
   @include fontWeight(600);
   @include responsiveFontSize();
+  position: relative;
+  top: 16px;
 }
 
 .SecondaryText {
