@@ -9,6 +9,10 @@ import "nprogress/nprogress.css"
 import { QueryClient, QueryClientProvider } from "react-query"
 import Layout from "@components/Layout"
 
+import { ApolloClient } from "@apollo/client"
+import { ApolloProvider } from "@apollo/client/react"
+import client from "apollo/apollo-client"
+
 NProgress.configure({ showSpinner: false, trickleRate: 0.1, trickleSpeed: 200 })
 
 Router.events.on("routeChangeStart", () => {
@@ -27,11 +31,13 @@ const queryClient = new QueryClient()
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Layout pageProps={pageProps}>
-        <Component {...pageProps} />
-      </Layout>
-    </QueryClientProvider>
+    <ApolloProvider client={client}>
+      <QueryClientProvider client={queryClient}>
+        <Layout pageProps={pageProps}>
+          <Component {...pageProps} />
+        </Layout>
+      </QueryClientProvider>
+    </ApolloProvider>
   )
 }
 

@@ -60,7 +60,6 @@ async function handlePlaceSelect(updateQuery: any, setQueryObject: any) {
     }
     updateQuery(formatted_address)
     setQueryObject(data)
-    console.log(data)
   } else {
     setQueryObject(false)
   }
