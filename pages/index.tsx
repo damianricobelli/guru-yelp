@@ -1,11 +1,13 @@
 import Head from "next/head"
 import { GetStaticProps } from "next"
 import axios from "axios"
+import { gql } from "@apollo/client"
+import client from "../apollo/apollo-client"
 
 import HomePage from "../home/screens/Home"
 
-export default function Home({ location_data }) {
-  console.log(location_data)
+export default function Home({ location_data, business }) {
+  console.log(location_data, business)
   return (
     <div>
       <Head>
@@ -20,6 +22,24 @@ export default function Home({ location_data }) {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   try {
+    // const { data } = await client.query({
+    //   query: gql`
+    //     query GetData {
+    //       business(id: "garaje-san-francisco") {
+    //         name
+    //         id
+    //         is_claimed
+    //         is_closed
+    //         url
+    //         phone
+    //         display_phone
+    //         review_count
+    //         rating
+    //         photos
+    //       }
+    //     }
+    //   `
+    // })
     const url_ip = "https://ipgeolocation.abstractapi.com/v1"
     const response = await axios.get(url_ip, {
       params: {
@@ -31,8 +51,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return {
       props: {
         location_data: response.data
-      }
-      // revalidate: 300
+        // business: data.business
+      },
+      revalidate: 300
     }
   } catch (error) {
     return {
