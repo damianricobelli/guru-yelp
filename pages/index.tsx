@@ -22,24 +22,24 @@ export default function Home({ location_data, business }) {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   try {
-    const { data } = await client.query({
-      query: gql`
-        query GetData {
-          business(id: "garaje-san-francisco") {
-            name
-            id
-            is_claimed
-            is_closed
-            url
-            phone
-            display_phone
-            review_count
-            rating
-            photos
-          }
-        }
-      `
-    })
+    // const { data } = await client.query({
+    //   query: gql`
+    //     query GetData {
+    //       business(id: "garaje-san-francisco") {
+    //         name
+    //         id
+    //         is_claimed
+    //         is_closed
+    //         url
+    //         phone
+    //         display_phone
+    //         review_count
+    //         rating
+    //         photos
+    //       }
+    //     }
+    //   `
+    // })
     const url_ip = "https://ipgeolocation.abstractapi.com/v1"
     const response = await axios.get(url_ip, {
       params: {
@@ -50,8 +50,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const longitude = response.data.longitude.toString()
     return {
       props: {
-        location_data: response.data,
-        business: data.business
+        location_data: response.data
+        // business: data.business
       },
       revalidate: 300
     }
