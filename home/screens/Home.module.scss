@@ -8,38 +8,59 @@
 }
 
 .InputGroup {
-  width: 100%;
   display: flex;
   justify-content: center;
+  width: 80%;
+  @include rounded("lg");
   align-items: center;
-  transition: transform 0.2s; /* Animation */
+  transition: transform 0.2s;
   &:hover {
     transform: scale(1.05);
+  }
+  @include xs {
+    width: 100%;
+    padding: 0 10px;
+  }
+  @include sm {
+    width: 100%;
+    padding: 0 10px;
+  }
+  @include md {
+    width: 80%;
+    padding: 0 10px;
+  }
+  @include lg {
+    width: 80%;
+    padding: 0 10px;
   }
 }
 
 .InputSearch {
   padding: 6px 8px;
-  margin: 0;
   font-size: 16px;
-  @include box-shadow(2px, 2px, 4px, rgba(0, 0, 0, 0.05));
-  border: 1.5px solid var(--palette-teal-600);
-  height: 35px;
+  @include box-shadow(2px, 2px, 4px, rgba(0, 0, 0, 0.3));
+  border: none;
+  height: 26px;
   width: 40%;
   &:focus {
     outline: none !important;
-    border: 2px solid var(--palette-teal-500);
-    box-shadow: 0 0 2px var(--palette-grey-500);
   }
   &::placeholder {
     font-family: Poppins;
-    // padding-left: 10px;
     @include fontSize("md");
+  }
+  @include xs {
+    width: 95%;
+    @include rounded("sm");
   }
 }
 
 .ButtonSearch {
-  margin-left: 10px;
-  padding: 8px 12px !important;
-  @include button();
+  width: 20%;
+  @include button("white-full", "teal-500", "lg", 500, "xs");
+  @include border-radius("xs", "lg", "lg", "xs");
+  @include xs {
+    width: 100%;
+    @include rounded("sm");
+  }
 }

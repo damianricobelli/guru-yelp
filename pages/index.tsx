@@ -31,8 +31,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return {
       props: {
         location_data: response.data
-      },
-      revalidate: 300
+      }
+      // revalidate: 300
     }
   } catch (error) {
     return {

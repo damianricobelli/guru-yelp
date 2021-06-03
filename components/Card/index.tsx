@@ -54,7 +54,7 @@ const Card: React.FC = ({}) => {
   return (
     <div className={classes.Card}>
       <Grid spacing={"xs"} container align="center" justify="space-between">
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{ paddingTop: 0 }}>
           <img
             className={classes.CardImage}
             src={data.imageURL}

@@ -16,6 +16,7 @@
   padding: 0.3em 0.8em;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
   border: solid 1px rgba(0, 0, 0, 0.01);
+  font-family: Poppins;
   @include fontSize($fontSize);
   @include fontWeight($fontWeight);
   @include rounded($borderRadius);
@@ -23,16 +24,16 @@
   @include color($color);
   @include bg($bg);
 
-  &:hover {
-    text-decoration: none;
-    @include bg($bg, 0.8);
-  }
+  // &:hover {
+  //   text-decoration: none;
+  //   @include bg($bg, 0.8);
+  // }
 
-  &:active {
-    position: relative;
-    top: 1px;
-    @include color($bg, 0.8);
-  }
+  // &:active {
+  //   position: relative;
+  //   top: 1px;
+  //   @include color($bg, 0.8);
+  // }
 }
 
 //Border radius
@@ -121,6 +122,13 @@
   }
   @include xl {
     @include fontSize("lg");
+  }
+}
+
+// XS devices
+@mixin xs {
+  @media (max-width: #{$screen-sm-min}) {
+    @content;
   }
 }
 
