@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "../../styles/mixins.scss";
 
 $spacing: (
@@ -24,14 +25,14 @@ $alignItems: (flex-start, flex-end, center);
 
   @for $i from 1 to 13 {
     &_xs_#{$i} {
-      flex-basis: $i/12 * 100%;
+      flex-basis: math.div($i, 12) * 100%;
     }
   }
 
   @include sm {
     @for $i from 1 to 13 {
       &_sm_#{$i} {
-        flex-basis: $i/12 * 100%;
+        flex-basis: math.div($i, 12) * 100%;
       }
     }
   }
@@ -39,7 +40,7 @@ $alignItems: (flex-start, flex-end, center);
   @include md {
     @for $i from 1 to 13 {
       &_md_#{$i} {
-        flex-basis: $i/12 * 100%;
+        flex-basis: math.div($i, 12) * 100%;
       }
     }
   }
@@ -47,7 +48,7 @@ $alignItems: (flex-start, flex-end, center);
   @include lg {
     @for $i from 1 to 13 {
       &_lg_#{$i} {
-        flex-basis: $i/12 * 100%;
+        flex-basis: math.div($i, 12) * 100%;
       }
     }
   }
