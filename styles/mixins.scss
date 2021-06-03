@@ -1,0 +1,159 @@
+@import "variables.scss";
+
+//Button
+@mixin button(
+  $color: "grey-300",
+  $bg: "white-full",
+  $fontSize: "md",
+  $fontWeight: 400,
+  $borderRadius: "lg"
+) {
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  padding: 0.3em 0.8em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  border: solid 1px rgba(0, 0, 0, 0.01);
+  @include fontSize($fontSize);
+  @include fontWeight($fontWeight);
+  @include rounded($borderRadius);
+  @include box-shadow(0, 1px, 2px, rgba(0, 0, 0, 0.15));
+  @include color($color);
+  @include bg($bg);
+
+  &:hover {
+    text-decoration: none;
+    @include bg($bg, 0.8);
+  }
+
+  &:active {
+    position: relative;
+    top: 1px;
+    @include color($bg, 0.8);
+  }
+}
+
+//Border radius
+@mixin rounded($radius: "md") {
+  -webkit-border-radius: var(--radii-#{$radius});
+  -moz-border-radius: var(--radii-#{$radius});
+  border-radius: var(--radii-#{$radius});
+}
+
+@mixin border-radius($topleft, $topright, $bottomright, $bottomleft) {
+  border-top-left-radius: var(--radii-#{$topleft});
+  border-top-right-radius: var(--radii-#{$topright});
+  border-bottom-right-radius: var(--radii-#{$bottomright});
+  border-bottom-left-radius: var(--radii-#{$bottomleft});
+  -webkit-border-top-left-radius: var(--radii-#{$topleft});
+  -webkit-border-top-right-radius: var(--radii-#{$topright});
+  -webkit-border-bottom-right-radius: var(--radii-#{$bottomright});
+  -webkit-border-bottom-left-radius: var(--radii-#{$bottomleft});
+  -moz-border-radius-topleft: var(--radii-#{$topleft});
+  -moz-border-radius-topright: var(--radii-#{$topright});
+  -moz-border-radius-bottomright: var(--radii-#{$bottomright});
+  -moz-border-radius-bottomleft: var(--radii-#{$bottomleft});
+}
+
+//Font
+@mixin fontSize($size: "sm") {
+  font-size: var(--fontsize-#{$size});
+}
+
+@mixin fontWeight($size: 400) {
+  font-weight: var(--fontweight-#{$size});
+}
+
+//Box shadow
+@mixin box-shadow(
+  $left: 4px,
+  $top: 4px,
+  $radius: 16px,
+  $color: rgba(0, 0, 0, 0.1)
+) {
+  box-shadow: $left $top $radius $color;
+  -webkit-box-shadow: $left $top $radius $color;
+  -moz-box-shadow: $left $top $radius $color;
+}
+
+//Transition
+@mixin transition($property, $duration, $easing: linear) {
+  transition: $property $duration $easing;
+  -webkit-transition: $property $duration $easing;
+  -moz-transition: $property $duration $easing;
+}
+
+//Color
+@mixin color($color, $opacity: 1) {
+  color: var(--palette-#{$color});
+  opacity: $opacity;
+}
+
+//Bg
+@mixin bg($color, $opacity: 1) {
+  background-color: var(--palette-#{$color});
+  opacity: $opacity;
+}
+
+//Gradient
+@mixin gradient($from, $to) {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from($from),
+    to($to)
+  );
+  background: -moz-linear-gradient(top, $from, $to);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$from}', endColorstr='#{$to}');
+}
+@mixin responsiveFontSize {
+  @include sm {
+    @include fontSize("sm");
+  }
+  @include md {
+    @include fontSize("md");
+  }
+  @include lg {
+    @include fontSize("lg");
+  }
+  @include xl {
+    @include fontSize("lg");
+  }
+}
+
+// Small devices
+@mixin sm {
+  @media (min-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+
+// Medium devices
+@mixin md {
+  @media (min-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin lg {
+  @media (min-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+
+// Extra large devices
+@mixin xl {
+  @media (min-width: #{$screen-xl-min}) {
+    @content;
+  }
+}
+
+@mixin rwd($screen) {
+  @media (min-width: $screen+"px") {
+    @content;
+  }
+}
