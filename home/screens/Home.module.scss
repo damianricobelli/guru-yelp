@@ -1,0 +1,33 @@
+@import "../../styles/mixins.scss";
+
+.Title {
+  margin-top: 4rem;
+  @include fontSize("4xl");
+  @include fontWeight(600);
+  @include color("grey-600");
+}
+
+.InputSearch {
+  @include border-radius("md", "md", "md", "md");
+  @include box-shadow(2px, 2px, 4px, rgba(0, 0, 0, 0.05));
+  border: 1.5px solid var(--palette-teal-600);
+  height: 35px;
+  width: 100%;
+  padding-left: 1rem;
+  transition: transform 0.2s; /* Animation */
+  &:hover {
+    transform: scale(
+      1.1
+    ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  }
+  &:focus {
+    outline: none !important;
+    border: 2px solid var(--palette-teal-500);
+    box-shadow: 0 0 2px var(--palette-grey-500);
+  }
+  &::placeholder {
+    font-family: Poppins;
+    // padding-left: 10px;
+    @include fontSize("md");
+  }
+}
