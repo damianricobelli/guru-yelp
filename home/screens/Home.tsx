@@ -31,19 +31,18 @@ const Home: React.FC<HomeProps> = ({}) => {
           marginBottom: 20
         }}
       >
-        <Grid item xs={12} sm={8} md={8} lg={6}>
+        <div className={classes.InputGroup}>
           <input
             className={classes.InputSearch}
             placeholder="Busca Restaurantes, negocios, etc..."
           />
-        </Grid>
-        <Grid item xs={12} sm={8} md={8} lg={6}>
           <SearchLocation
             queryValue={query}
             handleQuery={setQuery}
             handleQueryObject={setQueryObject}
           />
-        </Grid>
+          <button className={classes.ButtonSearch}>Buscar</button>
+        </div>
       </Grid>
       <div className="GridContainer">
         {Array(10)
