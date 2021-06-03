@@ -3,10 +3,8 @@ import React from "react"
 import Grid from "@components/Grid"
 
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs"
-import { FiShoppingCart, FiPhoneCall } from "react-icons/fi"
+import { FiPhoneCall } from "react-icons/fi"
 import { FaRegBuilding } from "react-icons/fa"
-
-interface indexProps {}
 
 interface RatingProps {
   rating: number
@@ -45,18 +43,18 @@ function Rating({ rating, numReviews }: RatingProps) {
             return <BsStar key={i} style={{ marginLeft: "1" }} />
           })}
       </Grid>
-      <Grid>
+      <Grid style={{ marginLeft: 4 }}>
         <h5 style={{ margin: "2px 0 20px 0" }}>({numReviews})</h5>
       </Grid>
     </Grid>
   )
 }
 
-const Card: React.FC<indexProps> = ({}) => {
+const Card: React.FC = ({}) => {
   return (
     <div className={classes.Card}>
       <Grid spacing={"xs"} container align="center" justify="space-between">
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{ paddingTop: 0 }}>
           <img
             className={classes.CardImage}
             src={data.imageURL}

@@ -30,3 +30,25 @@ a {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 }
+
+.FlexRowCenter {
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+}
+
+.FlexColumnCenter {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+}
+
+.FlexRow {
+  flex-direction: row;
+  display: flex;
+}
+
+.FlexColumn {
+  flex-direction: column;
+  display: flex;
+}

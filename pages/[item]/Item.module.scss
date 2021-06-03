@@ -1,0 +1,133 @@
+@import "../../styles/mixins.scss";
+
+.GridContainer {
+  display: grid;
+  margin-top: 80px;
+  margin-bottom: 60px;
+  grid-template-columns: 1fr;
+  gap: 10px 10px;
+  @include xs {
+    grid-template-columns: 1fr;
+    gap: 0px 30px;
+  }
+  @include sm {
+    grid-template-columns: 1fr;
+    gap: 0px 30px;
+  }
+  @include lg {
+    grid-template-columns: 1fr 1fr;
+    gap: 0px 60px;
+  }
+  @include xl {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.GridReviewsContainer {
+  display: grid;
+  margin-top: 40px;
+  margin-bottom: 60px;
+  grid-template-columns: 1fr;
+  gap: 10px 10px;
+  @include xs {
+    grid-template-columns: 1fr;
+    gap: 0px 30px;
+  }
+  @include sm {
+    grid-template-columns: 1fr;
+    gap: 0px 30px;
+  }
+  @include lg {
+    grid-template-columns: 1fr;
+    gap: 0px 60px;
+  }
+  @include xl {
+    grid-template-columns: 1fr;
+  }
+}
+
+.Title {
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  @include xs {
+    flex-direction: column;
+    align-items: flex-start;
+    h1 {
+      @include fontSize("2xl");
+    }
+  }
+}
+
+.CommentaryTitle {
+  @include xs {
+    @include fontSize("lg");
+  }
+}
+
+.Review {
+  padding: 20px;
+  @include bg("grey-200");
+  @include box-shadow(0, 1px, 2px, rgba(0, 0, 0, 0.1));
+  @include rounded("2xl");
+  // height: 100px;
+}
+
+.BackButton {
+  @include button("white-full", "grey-600", "lg", 500, "xl");
+  @include fontSize("sm");
+}
+
+.CardImage {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  @include border-radius("md", "md", "xs", "xs");
+}
+
+.UserImage {
+  height: 56px;
+  width: 56px;
+  object-fit: cover;
+  @include rounded("full");
+}
+
+.Box {
+  margin-top: 50;
+  padding: 10;
+  @include bg("gray-50");
+}
+
+.Status {
+  @include xs {
+    position: relative;
+    bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+
+.StatusClose {
+  margin-left: 20px;
+  padding: 6px 10px;
+  @include bg("red-500");
+  @include rounded("2xl");
+  @include fontSize("xs");
+  @include color("white-full");
+  @include xs {
+    margin-left: 0;
+    padding: 3px 6px;
+  }
+}
+
+.StatusOpen {
+  margin-left: 20px;
+  padding: 6px 10px;
+  @include bg("green-500");
+  @include rounded("2xl");
+  @include fontSize("xs");
+  @include color("white-full");
+  @include xs {
+    padding: 3px 6px;
+  }
+}

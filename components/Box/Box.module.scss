@@ -1,1 +1,9 @@
+@import "../../styles/mixins.scss";
 
+.Box {
+  margin-top: 50px;
+  padding: 30px;
+  width: 100%;
+  @include rounded("lg");
+  @include bg("grey-100");
+}
