@@ -90,7 +90,9 @@ const Home: React.FC<HomeProps> = ({ initialBusiness }) => {
     search()
   }
 
-  console.log(data, error, loading)
+  if (data) {
+    initialBusiness = data.search.business
+  }
 
   return (
     <>
