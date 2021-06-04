@@ -7,26 +7,26 @@ module.exports = {
   },
   future: {
     webpack5: true
-  },
-  async headers() {
-    return [
-      {
-        source: "/(.*?)",
-        headers: [
-          {
-            key: "X-Requested-With",
-            value: "XMLHttpRequest"
-          },
-          {
-            key: "Authorization",
-            value: `Bearer ${process.env.YELP_API_KEY}`
-          },
-          {
-            key: "Accept-Language",
-            value: "en-US"
-          }
-        ]
-      }
-    ]
   }
+  // async headers() {
+  //   return [
+  //     {
+  //       source: "/(.*?)",
+  //       headers: [
+  //         {
+  //           key: "X-Requested-With",
+  //           value: "XMLHttpRequest"
+  //         },
+  //         {
+  //           key: "Authorization",
+  //           value: `Bearer ${process.env.YELP_API_KEY}`
+  //         },
+  //         {
+  //           key: "Accept-Language",
+  //           value: "en-US"
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // }
 }
