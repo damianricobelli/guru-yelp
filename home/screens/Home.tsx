@@ -90,11 +90,6 @@ const Home: React.FC<HomeProps> = ({ initialBusiness }) => {
     setTerm(e.target.value)
   }
 
-  const handleSearchData = (e: any) => {
-    e.preventDefault()
-    search()
-  }
-
   if (data) {
     initialBusiness = data.search.business
   }
