@@ -10,144 +10,19 @@ import { useRouter } from "next/router"
 import classes from "./Item.module.scss"
 import Box from "@components/Box"
 
-import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs"
 import { FiPhoneCall } from "react-icons/fi"
 import { FaRegBuilding } from "react-icons/fa"
 import { HiOutlineChatAlt2 } from "react-icons/hi"
 import { keyBy, days, getHour } from "@utils/index"
 import { v4 as uuid } from "uuid"
 
-interface RatingProps {
-  rating: number
-  numReviews?: number
-}
+import { IItem } from "../../home/screens/Home"
 
-interface indexProps {
-  item_data: IItemDetail
-}
+import { indexProps, IOpen, IReview } from "./interfaces"
 
-interface IOpen {
-  start: string
-  end: string
-  day: number
-}
-interface IHour {
-  hours_type: string
-  is_open_now: boolean
-  open: IOpen[]
-}
+import { Rating, RatingReview } from "./Ratings"
 
-interface IUser {
-  id: string
-  profile_url: string
-  name: string
-  image_url: string
-}
-interface IReview {
-  text: string
-  rating: number
-  time_created: string
-  url: string
-  user: IUser
-}
-interface IItemDetail {
-  display_phone: string
-  phone: string
-  is_closed: boolean
-  location: {
-    __typename: string
-    address1: string
-    city: string
-    state: string
-    country: string
-  }
-  rating: number
-  review_count: number
-  url: string
-  __typename: string
-  photos: string[]
-  price: string | null
-  name: string
-  hours: IHour[]
-  reviews: IReview[]
-}
-
-function Rating({ rating, numReviews }: RatingProps) {
-  return (
-    <div className="FlexRowCenter">
-      <Grid item>
-        {Array(5)
-          .fill("")
-          .map((_, i) => {
-            const roundedRating = Math.round(rating * 2) / 2
-            if (roundedRating - i >= 1) {
-              return (
-                <BsStarFill
-                  key={i}
-                  size={18}
-                  style={{ marginLeft: "1" }}
-                  color={i < rating ? "#319795" : "#cbd5e0"}
-                />
-              )
-            }
-            if (roundedRating - i === 0.5) {
-              return (
-                <BsStarHalf
-                  size={18}
-                  key={i}
-                  style={{ marginLeft: "1", color: "#319795" }}
-                />
-              )
-            }
-            return (
-              <BsStar
-                size={18}
-                key={i}
-                style={{ marginLeft: "1", color: "#319795" }}
-              />
-            )
-          })}
-      </Grid>
-      <Grid style={{ marginLeft: 10, fontSize: 18 }}>
-        <h5 style={{ margin: 0 }}>
-          {numReviews} review{numReviews > 1 && "s"}
-        </h5>
-      </Grid>
-    </div>
-  )
-}
-
-function RatingReview({ rating }: RatingProps) {
-  return (
-    <div className="FlexRowCenter">
-      <Grid item>
-        {Array(5)
-          .fill("")
-          .map((_, i) => {
-            const roundedRating = Math.round(rating * 2) / 2
-            if (roundedRating - i >= 1) {
-              return (
-                <BsStarFill
-                  key={i}
-                  size={12}
-                  style={{ marginLeft: "1" }}
-                  color={i < rating ? "#319795" : "#cbd5e0"}
-                />
-              )
-            }
-            if (roundedRating - i === 0.5) {
-              return (
-                <BsStarHalf size={12} key={i} style={{ marginLeft: "1" }} />
-              )
-            }
-            return <BsStar size={12} key={i} style={{ marginLeft: "1" }} />
-          })}
-      </Grid>
-    </div>
-  )
-}
-
-const Item: React.FC<indexProps> = ({ item_data }: indexProps) => {
+const Item: React.FC<indexProps> = ({ item_data, error }: indexProps) => {
   console.log(item_data)
   const hours = item_data?.hours
   let openHours = null
@@ -162,126 +37,111 @@ const Item: React.FC<indexProps> = ({ item_data }: indexProps) => {
   return (
     <Grid container style={{ position: "relative" }}>
       <Box style={{ position: "relative" }}>
-        <div className={classes.GridContainer}>
-          <button
-            className={classes.BackButton}
-            style={{ position: "absolute", top: 40 }}
-            onClick={() => router.back()}
-          >
-            Volver
-          </button>
-          <img
-            className={classes.CardImage}
-            src={item_data.photos[0]}
-            alt={`Picture of ${item_data.name}`}
-          />
-          <div className="FlexColumn">
-            <div className={classes.Title}>
-              <h1>{item_data.name}</h1>
-              <div className={classes.Status}>
-                <span
-                  className={classes.StatusClose}
-                  style={{
-                    backgroundColor: item_data.hours[0].is_open_now && "#38a169"
-                  }}
-                >
-                  {!item_data.hours[0].is_open_now
-                    ? "Cerrado"
-                    : "Abierto ahora"}
-                </span>
-                <span
-                  className={classes.StatusOpen}
-                  style={{
-                    backgroundColor: !item_data.price && "#718096",
-                    color: !item_data.price && "white"
-                  }}
-                >
-                  {item_data.price ? item_data.price : "Sin info de precios"}
-                </span>
-              </div>
-            </div>
-            <Rating
-              rating={item_data.rating}
-              numReviews={item_data.review_count}
-            />
-            <span style={{ paddingTop: 20 }}>
-              <FiPhoneCall
-                style={{ marginRight: 10, position: "relative", top: 2 }}
+        {error ? (
+          alert(error)
+        ) : (
+          <>
+            {console.log(item_data.photos[0])}
+            <div className={classes.GridContainer}>
+              <button
+                className={classes.BackButton}
+                style={{ position: "absolute", top: 40 }}
+                onClick={() => router.back()}
+              >
+                Volver
+              </button>
+              <img
+                className={classes.CardImage}
+                src={item_data.photos[0]}
+                alt={`Picture of ${item_data.name}`}
               />
-              {item_data.display_phone}
-            </span>
-            <span>
-              <FaRegBuilding
-                style={{ marginRight: 10, position: "relative", top: 2 }}
-              />
-              {item_data.location.address1}
-            </span>
-            <h4 style={{ textDecoration: "underline", margin: "20px 0 0 0" }}>
-              Días y horarios
-            </h4>
-            <div
-              className="FlexColumn"
-              style={{
-                gap: 8,
-                marginTop: 14
-              }}
-            >
-              {indexedOpenHours ? (
-                Object.keys(indexedOpenHours).map((key: any) =>
-                  indexedOpenHours[key].map((hour: IOpen) => (
-                    <div
-                      key={uuid()}
-                      className="FlexRowCenter"
+              <div className="FlexColumn">
+                <div className={classes.Title}>
+                  <h1>{item_data.name}</h1>
+                  <div className={classes.Status}>
+                    <span
+                      className={classes.StatusClose}
                       style={{
-                        gap: 12
+                        backgroundColor: item_data.hours[0]?.is_open_now
+                          ? "#38a169"
+                          : "#e53e3e"
                       }}
                     >
-                      <span style={{ fontWeight: 600 }}>{days[key]}:</span>
-                      <span style={{ fontWeight: 400 }}>
-                        {getHour(hour.start)} - {getHour(hour.end)}
-                      </span>
-                    </div>
-                  ))
-                )
-              ) : (
-                <span style={{ fontWeight: 600 }}>
-                  El comercio no registró sus horarios
+                      {!item_data.hours[0]?.is_open_now
+                        ? "Cerrado"
+                        : "Abierto ahora"}
+                    </span>
+                    <span
+                      className={classes.StatusOpen}
+                      style={{
+                        backgroundColor: !item_data.price && "#718096",
+                        color: !item_data.price && "white"
+                      }}
+                    >
+                      {item_data.price
+                        ? item_data.price
+                        : "Sin info de precios"}
+                    </span>
+                  </div>
+                </div>
+                <Rating
+                  rating={item_data.rating}
+                  numReviews={item_data.review_count}
+                />
+                <span style={{ paddingTop: 20 }}>
+                  <FiPhoneCall
+                    style={{ marginRight: 10, position: "relative", top: 2 }}
+                  />
+                  {item_data.display_phone}
                 </span>
-              )}
+                <span>
+                  <FaRegBuilding
+                    style={{ marginRight: 10, position: "relative", top: 2 }}
+                  />
+                  {item_data.location.address1}
+                </span>
+                <h4
+                  style={{ textDecoration: "underline", margin: "20px 0 0 0" }}
+                >
+                  Días y horarios
+                </h4>
+                <div
+                  className="FlexColumn"
+                  style={{
+                    gap: 8,
+                    marginTop: 14
+                  }}
+                >
+                  {indexedOpenHours ? (
+                    Object.keys(indexedOpenHours).map((key: any) =>
+                      indexedOpenHours[key].map((hour: IOpen) => (
+                        <div
+                          key={uuid()}
+                          className="FlexRowCenter"
+                          style={{
+                            gap: 12
+                          }}
+                        >
+                          <span style={{ fontWeight: 600 }}>{days[key]}:</span>
+                          <span style={{ fontWeight: 400 }}>
+                            {getHour(hour.start)} - {getHour(hour.end)}
+                          </span>
+                        </div>
+                      ))
+                    )
+                  ) : (
+                    <span style={{ fontWeight: 600 }}>
+                      El comercio no registró sus horarios
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className={classes.GridReviewsContainer}>
-          <div
-            className="FlexColumn"
-            style={{
-              gap: 20
-            }}
-          >
-            <div
-              className="FlexRowCenter"
-              style={{
-                gap: 12
-              }}
-            >
-              <HiOutlineChatAlt2 size={24} />
-              <h2
-                style={{ margin: "0 0 0 0" }}
-                className={classes.CommentaryTitle}
-              >
-                {item_data.reviews.length > 0
-                  ? "Comentarios destacados"
-                  : "Sin comentarios"}
-              </h2>
-            </div>
-            {item_data.reviews.slice(0, 5).map((review: IReview) => (
+            <div className={classes.GridReviewsContainer}>
               <div
-                key={uuid()}
-                className={classes.Review}
+                className="FlexColumn"
                 style={{
-                  flexDirection: "column",
-                  display: "flex",
-                  gap: 12
+                  gap: 20
                 }}
               >
                 <div
@@ -290,22 +150,52 @@ const Item: React.FC<indexProps> = ({ item_data }: indexProps) => {
                     gap: 12
                   }}
                 >
-                  <img
-                    className={classes.UserImage}
-                    src={review.user.image_url}
-                    alt={`Picture of ${review.user.name}`}
-                  />
-                  <div className="FlexColumn" style={{}}>
-                    <span style={{ fontWeight: 600 }}>{review.user.name}</span>
-                    <span>{review.time_created}</span>
-                  </div>
+                  <HiOutlineChatAlt2 size={24} />
+                  <h2
+                    style={{ margin: "0 0 0 0" }}
+                    className={classes.CommentaryTitle}
+                  >
+                    {item_data.reviews.length > 0
+                      ? "Comentarios destacados"
+                      : "Sin comentarios"}
+                  </h2>
                 </div>
-                <RatingReview rating={review.rating} />
-                <span>{review.text}</span>
+                {item_data.reviews.slice(0, 5).map((review: IReview) => (
+                  <div
+                    key={uuid()}
+                    className={classes.Review}
+                    style={{
+                      flexDirection: "column",
+                      display: "flex",
+                      gap: 12
+                    }}
+                  >
+                    <div
+                      className="FlexRowCenter"
+                      style={{
+                        gap: 12
+                      }}
+                    >
+                      <img
+                        className={classes.UserImage}
+                        src={review.user.image_url}
+                        alt={`Picture of ${review.user.name}`}
+                      />
+                      <div className="FlexColumn" style={{}}>
+                        <span style={{ fontWeight: 600 }}>
+                          {review.user.name}
+                        </span>
+                        <span>{review.time_created}</span>
+                      </div>
+                    </div>
+                    <RatingReview rating={review.rating} />
+                    <span>{review.text}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          </>
+        )}
       </Box>
     </Grid>
   )
@@ -370,15 +260,50 @@ export const getStaticProps: GetStaticProps = async (context) => {
   } catch (error) {
     return {
       props: {
-        error
+        error: JSON.stringify(error)
       }
     }
   }
 }
 
 export const getStaticPaths: GetStaticPaths<{ id: string }> = async () => {
+  const url_ip = "https://ipgeolocation.abstractapi.com/v1"
+  const response = await axios.get(url_ip, {
+    params: {
+      api_key: process.env.API_KEY_ABSTRACT
+    }
+  })
+
+  const city = response.data.city.toString()
+  const { data: data_business } = await client.query({
+    query: gql`
+    query GetDataSearch {
+      search(term: "restaurantes", location: "${city}", limit: 10) {
+        business {
+          id
+          phone
+          display_phone
+          review_count
+          rating
+          photos
+          name
+          location {
+            address1
+            city
+            state
+            country
+          }
+        }
+      }
+    }
+  `
+  })
+
+  const routes = data_business.search.business.map(
+    (data: IItem) => `/${data.id}`
+  )
   return {
     fallback: true,
-    paths: []
+    paths: routes
   }
 }

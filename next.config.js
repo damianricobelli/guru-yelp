@@ -18,8 +18,8 @@ module.exports = {
             value: "XMLHttpRequest"
           },
           {
-            key: "authorization",
-            value: process.env.YELP_API_KEY
+            key: "Authorization",
+            value: `Bearer ${process.env.YELP_API_KEY}`
           },
           {
             key: "Accept-Language",
@@ -35,8 +35,25 @@ module.exports = {
             value: "XMLHttpRequest"
           },
           {
-            key: "authorization",
-            value: process.env.YELP_API_KEY
+            key: "Authorization",
+            value: `Bearer ${process.env.YELP_API_KEY}`
+          },
+          {
+            key: "Accept-Language",
+            value: "en-US"
+          }
+        ]
+      },
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "X-Requested-With",
+            value: "XMLHttpRequest"
+          },
+          {
+            key: "Authorization",
+            value: `Bearer ${process.env.YELP_API_KEY}`
           },
           {
             key: "Accept-Language",

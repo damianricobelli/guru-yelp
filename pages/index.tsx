@@ -11,9 +11,17 @@ import { IItem } from "../home/screens/Home"
 interface IHome {
   location_data: any
   initial_business: IItem[]
+  error: any
 }
 
-export default function Home({ location_data, initial_business }: IHome) {
+export default function Home({
+  location_data,
+  initial_business,
+  error
+}: IHome) {
+  if (error) {
+    console.log(JSON.parse(error))
+  }
   return (
     <div>
       <Head>
@@ -70,7 +78,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   } catch (error) {
     return {
       props: {
-        error
+        error: JSON.stringify(error)
       }
     }
   }
