@@ -8,10 +8,13 @@ import { IAutocomplete } from "../components/SearchInput/interfaces"
 import SearchLocation from "../components/SearchInput"
 import { v4 as uuid } from "uuid"
 
+import { useForm } from "react-hook-form"
+
 import { gql, useLazyQuery } from "@apollo/client"
 
 import Loader from "react-loader-spinner"
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import { useStoreData } from "@stores/useStoreData"
 
 interface HomeProps {
   initialBusiness: IItem[]
@@ -63,6 +66,8 @@ const Home: React.FC<HomeProps> = ({ initialBusiness }) => {
   const [query, setQuery] = React.useState<string>("")
   const [queryObject, setQueryObject] = React.useState<IAutocomplete>(null)
 
+  const { handleSubmit } = useForm()
+
   const latitude = queryObject?.geometry.lat
   const longitude = queryObject?.geometry.lng
 
@@ -90,8 +95,16 @@ const Home: React.FC<HomeProps> = ({ initialBusiness }) => {
     search()
   }
 
+  // const { currentData, setCurrentData } = useStoreData()
+
   if (data) {
     initialBusiness = data.search.business
+  }
+
+  const onSubmit = async (formData: any) => {
+    if (queryObject) {
+      search()
+    }
   }
 
   return (
@@ -101,21 +114,23 @@ const Home: React.FC<HomeProps> = ({ initialBusiness }) => {
           Todos los comercios en un solo lugar
         </span>
       </Grid>
-      <div className={classes.GridContainer}>
-        <input
-          onChange={handleChangeTerm}
-          className={classes.InputSearch}
-          placeholder="Busca Restaurantes, negocios, etc..."
-        />
-        <SearchLocation
-          queryValue={query}
-          handleQuery={setQuery}
-          handleQueryObject={setQueryObject}
-        />
-        <button onClick={handleSearchData} className={classes.ButtonSearch}>
-          Buscar
-        </button>
-      </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={classes.GridContainer}>
+          <input
+            onChange={handleChangeTerm}
+            className={classes.InputSearch}
+            placeholder="Busca Restaurantes, negocios, etc..."
+          />
+          <SearchLocation
+            queryValue={query}
+            handleQuery={setQuery}
+            handleQueryObject={setQueryObject}
+          />
+          <button type="submit" className={classes.ButtonSearch}>
+            Buscar
+          </button>
+        </div>
+      </form>
       {!loading ? (
         <div className="GridContainer">
           {initialBusiness?.map((item: IItem) => (
