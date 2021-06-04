@@ -3,7 +3,7 @@ import React from "react"
 import { GetStaticProps, GetStaticPaths } from "next"
 import axios from "axios"
 import { gql } from "@apollo/client"
-import client from "../../../apollo/apollo-client"
+import client from "../../apollo/apollo-client"
 
 import Grid from "@components/Grid"
 import { useRouter } from "next/router"
@@ -16,11 +16,11 @@ import { HiOutlineChatAlt2 } from "react-icons/hi"
 import { keyBy, days, getHour } from "@utils/index"
 import { v4 as uuid } from "uuid"
 
-import { IItem } from "../../../home/screens/Home"
+import { IItem } from "../../home/screens/Home"
 
-import { indexProps, IOpen, IReview } from "../../../app/interfaces"
+import { indexProps, IOpen, IReview } from "../../app/interfaces"
 
-import { Rating, RatingReview } from "../../../app/Ratings"
+import { Rating, RatingReview } from "../../app/Ratings"
 
 const Item: React.FC<indexProps> = ({ item_data, error }: indexProps) => {
   console.log(item_data)
@@ -300,7 +300,7 @@ export const getStaticPaths: GetStaticPaths<{ id: string }> = async () => {
   })
 
   const routes = data_business.search.business.map(
-    (data: IItem) => `/comercios/${data.id}`
+    (data: IItem) => `/${data.id}`
   )
   return {
     fallback: true,
