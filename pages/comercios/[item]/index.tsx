@@ -18,9 +18,9 @@ import { v4 as uuid } from "uuid"
 
 import { IItem } from "../../../home/screens/Home"
 
-import { indexProps, IOpen, IReview } from "./interfaces"
+import { indexProps, IOpen, IReview } from "../../../app/interfaces"
 
-import { Rating, RatingReview } from "./Ratings"
+import { Rating, RatingReview } from "../../../app/Ratings"
 
 const Item: React.FC<indexProps> = ({ item_data, error }: indexProps) => {
   console.log(item_data)
