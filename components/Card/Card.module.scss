@@ -55,6 +55,12 @@
   height: 180px;
   object-fit: cover;
   @include border-radius("md", "md", "xs", "xs");
+  @include lg {
+    height: 240px;
+  }
+  @include xl {
+    height: 180px;
+  }
 }
 
 .Spacing {
