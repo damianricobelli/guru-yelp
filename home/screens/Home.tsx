@@ -245,7 +245,17 @@ const Home: React.FC<HomeProps> = ({ initialBusiness }) => {
         </Grid>
       ) : (
         <Grid container style={{ position: "relative" }}>
-          <Box style={{ position: "relative" }}></Box>
+          <Box
+            style={{
+              position: "relative",
+              textAlign: "center",
+              padding: "4rem"
+            }}
+          >
+            <h1>
+              Hubo un problema al realizar la búsqueda. Intente nuevamente
+            </h1>
+          </Box>
         </Grid>
       )}
       <ToastContainer />
