@@ -16,7 +16,6 @@ a {
 .GridContainer {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 350px 350px;
   gap: 10px 10px;
   @include sm {
     grid-template-columns: 1fr 1fr;
@@ -27,7 +26,7 @@ a {
     gap: 0px 30px;
   }
   @include xl {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   }
 }
 

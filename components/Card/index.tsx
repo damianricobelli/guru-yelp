@@ -27,7 +27,7 @@ const data = {
 
 function Rating({ rating, numReviews }: RatingProps) {
   return (
-    <Grid container style={{ paddingTop: 18 }}>
+    <Grid container className={classes.RatingPosition}>
       <Grid item>
         {Array(5)
           .fill("")
@@ -36,6 +36,7 @@ function Rating({ rating, numReviews }: RatingProps) {
             if (roundedRating - i >= 1) {
               return (
                 <BsStarFill
+                  size={12}
                   key={i}
                   style={{ marginLeft: "1" }}
                   color={i < rating ? "#319795" : "#cbd5e0"}
@@ -45,18 +46,23 @@ function Rating({ rating, numReviews }: RatingProps) {
             if (roundedRating - i === 0.5) {
               return (
                 <BsStarHalf
+                  size={12}
                   key={i}
                   style={{ marginLeft: "1", color: "#319795" }}
                 />
               )
             }
             return (
-              <BsStar key={i} style={{ marginLeft: "1", color: "#319795" }} />
+              <BsStar
+                size={12}
+                key={i}
+                style={{ marginLeft: "1", color: "#319795" }}
+              />
             )
           })}
-        <h5 style={{ margin: "2px 0 20px 0" }}>
+        <h6 style={{ margin: "2px 0 20px 0", fontWeight: 600 }}>
           {numReviews} review{numReviews > 1 && "s"}
-        </h5>
+        </h6>
       </Grid>
     </Grid>
   )
@@ -72,17 +78,16 @@ const Card: React.FC<ICard> = ({ data }: ICard) => {
           alt={`Picture of ${data.name}`}
         />
         <div style={{ paddingLeft: "1rem", paddingRight: "1rem" }}>
-          <div
-            className="FlexRow"
-            style={{
-              gap: 12,
-              justifyContent: "space-between"
-            }}
-          >
-            <span className={classes.BusinessText}>{data.name}</span>
+          <div className={classes.TitleReviewContainer}>
+            <span
+              style={{ textAlign: "start" }}
+              className={classes.BusinessText}
+            >
+              {data.name}
+            </span>
             <Rating rating={data.rating} numReviews={data.review_count} />
           </div>
-          <div style={{ position: "relative", bottom: 20 }}>
+          <div style={{ position: "relative", bottom: 10 }}>
             <span className={classes.SecondaryText}>
               <FiPhoneCall
                 style={{ marginRight: 10, position: "relative", top: 2 }}
@@ -90,7 +95,7 @@ const Card: React.FC<ICard> = ({ data }: ICard) => {
               {data.display_phone ? data.display_phone : "Sin teléfono"}
             </span>
           </div>
-          <div style={{ position: "relative", bottom: 20 }}>
+          <div style={{ position: "relative", bottom: 10 }}>
             <span className={classes.SecondaryText}>
               {" "}
               <FaRegBuilding

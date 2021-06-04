@@ -80,9 +80,23 @@
 
 .CardImage {
   width: 100%;
-  max-height: 500px;
   object-fit: cover;
   @include border-radius("md", "md", "xs", "xs");
+  @include xs {
+    max-height: 250px;
+  }
+  @include sm {
+    max-height: 400px;
+  }
+  @include md {
+    max-height: 500px;
+  }
+  @include lg {
+    max-height: 500px;
+  }
+  @include xl {
+    max-height: 500px;
+  }
 }
 
 .UserImage {
