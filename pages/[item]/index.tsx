@@ -1,230 +1,309 @@
 import React from "react"
+
+import { GetStaticProps, GetStaticPaths } from "next"
+import axios from "axios"
+import { gql } from "@apollo/client"
+import client from "../../apollo/apollo-client"
+
 import Grid from "@components/Grid"
 import { useRouter } from "next/router"
 import classes from "./Item.module.scss"
 import Box from "@components/Box"
 
-import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs"
 import { FiPhoneCall } from "react-icons/fi"
 import { FaRegBuilding } from "react-icons/fa"
 import { HiOutlineChatAlt2 } from "react-icons/hi"
+import { keyBy, days, getHour } from "@utils/index"
+import { v4 as uuid } from "uuid"
 
-interface RatingProps {
-  rating: number
-  numReviews?: number
-}
+import { IItem } from "../../home/screens/Home"
 
-interface indexProps {}
+import { indexProps, IOpen, IReview } from "./interfaces"
 
-const data = {
-  isNew: true,
-  imageURL: "https://www.webnode.es/blog/files/2018/07/online-store.png",
-  name: "Wayfarer Classic",
-  price: 4.5,
-  rating: 4.2,
-  numReviews: 34
-}
+import { Rating, RatingReview } from "./Ratings"
 
-function Rating({ rating, numReviews }: RatingProps) {
-  return (
-    <div className="FlexRowCenter">
-      <Grid item>
-        {Array(5)
-          .fill("")
-          .map((_, i) => {
-            const roundedRating = Math.round(rating * 2) / 2
-            if (roundedRating - i >= 1) {
-              return (
-                <BsStarFill
-                  key={i}
-                  size={18}
-                  style={{ marginLeft: "1" }}
-                  color={i < rating ? "#319795" : "#cbd5e0"}
-                />
-              )
-            }
-            if (roundedRating - i === 0.5) {
-              return (
-                <BsStarHalf size={18} key={i} style={{ marginLeft: "1" }} />
-              )
-            }
-            return <BsStar size={18} key={i} style={{ marginLeft: "1" }} />
-          })}
-      </Grid>
-      <Grid style={{ marginLeft: 10, fontSize: 18 }}>
-        <h5 style={{ margin: 0 }}>{numReviews} comentarios</h5>
-      </Grid>
-    </div>
-  )
-}
-
-function RatingReview({ rating }: RatingProps) {
-  return (
-    <div className="FlexRowCenter">
-      <Grid item>
-        {Array(5)
-          .fill("")
-          .map((_, i) => {
-            const roundedRating = Math.round(rating * 2) / 2
-            if (roundedRating - i >= 1) {
-              return (
-                <BsStarFill
-                  key={i}
-                  size={12}
-                  style={{ marginLeft: "1" }}
-                  color={i < rating ? "#319795" : "#cbd5e0"}
-                />
-              )
-            }
-            if (roundedRating - i === 0.5) {
-              return (
-                <BsStarHalf size={12} key={i} style={{ marginLeft: "1" }} />
-              )
-            }
-            return <BsStar size={12} key={i} style={{ marginLeft: "1" }} />
-          })}
-      </Grid>
-      <Grid style={{ marginLeft: 10, fontSize: 14 }}>
-        <h5 style={{ margin: 0 }}>10/08/2020</h5>
-      </Grid>
-    </div>
-  )
-}
-
-const Item: React.FC<indexProps> = ({}) => {
+const Item: React.FC<indexProps> = ({ item_data, error }: indexProps) => {
+  console.log(item_data)
+  const hours = item_data?.hours
+  let openHours = null
+  if (hours) {
+    openHours = hours[0]?.open
+  }
+  let indexedOpenHours = null
+  if (openHours) {
+    indexedOpenHours = keyBy(openHours, "day")
+  }
   const router = useRouter()
   return (
     <Grid container style={{ position: "relative" }}>
       <Box style={{ position: "relative" }}>
-        <div className={classes.GridContainer}>
-          <button
-            className={classes.BackButton}
-            style={{ position: "absolute", top: 40 }}
-            onClick={() => router.back()}
-          >
-            Volver
-          </button>
-          <img
-            className={classes.CardImage}
-            src={data.imageURL}
-            alt={`Picture of ${data.name}`}
-          />
-          <div className="FlexColumn">
-            <div className={classes.Title}>
-              <h1>1. Rock & Feller's</h1>
-              <div className={classes.Status}>
-                <span className={classes.StatusClose}>Cerrado</span>
-                <span className={classes.StatusOpen}>$$$</span>
-              </div>
-            </div>
-            <Rating rating={data.rating} numReviews={data.numReviews} />
-            <span style={{ paddingTop: 20 }}>
-              <FiPhoneCall
-                style={{ marginRight: 10, position: "relative", top: 2 }}
+        {error ? (
+          alert(error)
+        ) : (
+          <>
+            {console.log(item_data.photos[0])}
+            <div className={classes.GridContainer}>
+              <button
+                className={classes.BackButton}
+                style={{ position: "absolute", top: 40 }}
+                onClick={() => router.back()}
+              >
+                Volver
+              </button>
+              <img
+                className={classes.CardImage}
+                src={item_data.photos[0]}
+                alt={`Picture of ${item_data.name}`}
               />
-              3413104099
-            </span>
-            <span>
-              <FaRegBuilding
-                style={{ marginRight: 10, position: "relative", top: 2 }}
-              />
-              Avenida Juan Jose Paso
-            </span>
-            <h4 style={{ textDecoration: "underline", margin: "20px 0 0 0" }}>
-              Días y horarios
-            </h4>
-            <div
-              className="FlexColumn"
-              style={{
-                gap: 8,
-                marginTop: 14
-              }}
-            >
-              <div
-                className="FlexRowCenter"
-                style={{
-                  gap: 12
-                }}
-              >
-                <span style={{ fontWeight: 600 }}>Lunes:</span>
-                <span style={{ fontWeight: 400 }}>
-                  11:00 AM - 2:00 PM 9:00 PM - 10:00 PM
-                </span>
-              </div>
-              <div
-                className="FlexRowCenter"
-                style={{
-                  gap: 12
-                }}
-              >
-                <span style={{ fontWeight: 600 }}>Lunes:</span>
-                <span style={{ fontWeight: 400 }}>
-                  11:00 AM - 2:00 PM 9:00 PM - 10:00 PM
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={classes.GridReviewsContainer}>
-          <div
-            className="FlexColumn"
-            style={{
-              gap: 20
-            }}
-          >
-            <div
-              className="FlexRowCenter"
-              style={{
-                gap: 12
-              }}
-            >
-              <HiOutlineChatAlt2 size={24} />
-              <h2
-                style={{ margin: "0 0 0 0" }}
-                className={classes.CommentaryTitle}
-              >
-                Comentarios destacados
-              </h2>
-            </div>
-            <div
-              className={classes.Review}
-              style={{
-                flexDirection: "column",
-                display: "flex",
-                gap: 12
-              }}
-            >
-              <div
-                className="FlexRowCenter"
-                style={{
-                  gap: 12
-                }}
-              >
-                {" "}
-                <img
-                  className={classes.UserImage}
-                  src={data.imageURL}
-                  alt={`Picture of ${data.name}`}
+              <div className="FlexColumn">
+                <div className={classes.Title}>
+                  <h1>{item_data.name}</h1>
+                  <div className={classes.Status}>
+                    <span
+                      className={classes.StatusClose}
+                      style={{
+                        backgroundColor: item_data.hours[0]?.is_open_now
+                          ? "#38a169"
+                          : "#e53e3e"
+                      }}
+                    >
+                      {!item_data.hours[0]?.is_open_now
+                        ? "Cerrado"
+                        : "Abierto ahora"}
+                    </span>
+                    <span
+                      className={classes.StatusOpen}
+                      style={{
+                        backgroundColor: !item_data.price && "#718096",
+                        color: !item_data.price && "white"
+                      }}
+                    >
+                      {item_data.price
+                        ? item_data.price
+                        : "Sin info de precios"}
+                    </span>
+                  </div>
+                </div>
+                <Rating
+                  rating={item_data.rating}
+                  numReviews={item_data.review_count}
                 />
-                <div className="FlexColumn" style={{}}>
-                  <span style={{ fontWeight: 600 }}>Agustina D.</span>
-                  <span>Rosario, Argentina</span>
+                <span style={{ paddingTop: 20 }}>
+                  <FiPhoneCall
+                    style={{ marginRight: 10, position: "relative", top: 2 }}
+                  />
+                  {item_data.display_phone}
+                </span>
+                <span>
+                  <FaRegBuilding
+                    style={{ marginRight: 10, position: "relative", top: 2 }}
+                  />
+                  {item_data.location.address1}
+                </span>
+                <h4
+                  style={{ textDecoration: "underline", margin: "20px 0 0 0" }}
+                >
+                  Días y horarios
+                </h4>
+                <div
+                  className="FlexColumn"
+                  style={{
+                    gap: 8,
+                    marginTop: 14
+                  }}
+                >
+                  {indexedOpenHours ? (
+                    Object.keys(indexedOpenHours).map((key: any) =>
+                      indexedOpenHours[key].map((hour: IOpen) => (
+                        <div
+                          key={uuid()}
+                          className="FlexRowCenter"
+                          style={{
+                            gap: 12
+                          }}
+                        >
+                          <span style={{ fontWeight: 600 }}>{days[key]}:</span>
+                          <span style={{ fontWeight: 400 }}>
+                            {getHour(hour.start)} - {getHour(hour.end)}
+                          </span>
+                        </div>
+                      ))
+                    )
+                  ) : (
+                    <span style={{ fontWeight: 600 }}>
+                      El comercio no registró sus horarios
+                    </span>
+                  )}
                 </div>
               </div>
-              <RatingReview rating={data.rating} />
-              <span>
-                Customer service: it really depends on who the waiter is. S/he
-                can be very attentive or quite rude. Food: it's always mouth
-                watering and abundant. Price: might be just a little bit more
-                expensive than other places in town, but taking into account the
-                decoration, atmosphere and cleaning it is worth it.
-              </span>
             </div>
-          </div>
-        </div>
+            <div className={classes.GridReviewsContainer}>
+              <div
+                className="FlexColumn"
+                style={{
+                  gap: 20
+                }}
+              >
+                <div
+                  className="FlexRowCenter"
+                  style={{
+                    gap: 12
+                  }}
+                >
+                  <HiOutlineChatAlt2 size={24} />
+                  <h2
+                    style={{ margin: "0 0 0 0" }}
+                    className={classes.CommentaryTitle}
+                  >
+                    {item_data.reviews.length > 0
+                      ? "Comentarios destacados"
+                      : "Sin comentarios"}
+                  </h2>
+                </div>
+                {item_data.reviews.slice(0, 5).map((review: IReview) => (
+                  <div
+                    key={uuid()}
+                    className={classes.Review}
+                    style={{
+                      flexDirection: "column",
+                      display: "flex",
+                      gap: 12
+                    }}
+                  >
+                    <div
+                      className="FlexRowCenter"
+                      style={{
+                        gap: 12
+                      }}
+                    >
+                      <img
+                        className={classes.UserImage}
+                        src={review.user.image_url}
+                        alt={`Picture of ${review.user.name}`}
+                      />
+                      <div className="FlexColumn" style={{}}>
+                        <span style={{ fontWeight: 600 }}>
+                          {review.user.name}
+                        </span>
+                        <span>{review.time_created}</span>
+                      </div>
+                    </div>
+                    <RatingReview rating={review.rating} />
+                    <span>{review.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </Box>
     </Grid>
   )
 }
 
 export default Item
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const id = context.params.item
+  try {
+    const { data: item } = await client.query({
+      query: gql`
+        query GetDataItem {
+          business(id: "${id}") {
+            name
+            photos
+            is_closed
+            url
+            phone
+            display_phone
+            review_count
+            rating
+            price
+            hours {
+              hours_type
+              is_open_now
+              open {
+                start
+                end
+                day
+              }
+            }
+            reviews {
+              text,
+              rating,
+              time_created,
+              url,
+              user {
+                id,
+                profile_url,
+                name,
+                image_url
+              }
+            }
+            location {
+              address1
+              city
+              state
+              country
+            }
+          }
+        }
+      `
+    })
+
+    return {
+      props: {
+        item_data: item.business
+      },
+      revalidate: 300
+    }
+  } catch (error) {
+    return {
+      props: {
+        error: JSON.stringify(error)
+      }
+    }
+  }
+}
+
+export const getStaticPaths: GetStaticPaths<{ id: string }> = async () => {
+  const url_ip = "https://ipgeolocation.abstractapi.com/v1"
+  const response = await axios.get(url_ip, {
+    params: {
+      api_key: process.env.API_KEY_ABSTRACT
+    }
+  })
+
+  const city = response.data.city.toString()
+  const { data: data_business } = await client.query({
+    query: gql`
+    query GetDataSearch {
+      search(term: "restaurantes", location: "${city}", limit: 10) {
+        business {
+          id
+          phone
+          display_phone
+          review_count
+          rating
+          photos
+          name
+          location {
+            address1
+            city
+            state
+            country
+          }
+        }
+      }
+    }
+  `
+  })
+
+  const routes = data_business.search.business.map(
+    (data: IItem) => `/${data.id}`
+  )
+  return {
+    fallback: true,
+    paths: routes
+  }
+}

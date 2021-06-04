@@ -5,10 +5,15 @@ import Grid from "@components/Grid"
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs"
 import { FiPhoneCall } from "react-icons/fi"
 import { FaRegBuilding } from "react-icons/fa"
+import { IItem } from "home/screens/Home"
 
 interface RatingProps {
   rating: number
   numReviews: number
+}
+
+interface ICard {
+  data: IItem
 }
 
 const data = {
@@ -38,55 +43,64 @@ function Rating({ rating, numReviews }: RatingProps) {
               )
             }
             if (roundedRating - i === 0.5) {
-              return <BsStarHalf key={i} style={{ marginLeft: "1" }} />
+              return (
+                <BsStarHalf
+                  key={i}
+                  style={{ marginLeft: "1", color: "#319795" }}
+                />
+              )
             }
-            return <BsStar key={i} style={{ marginLeft: "1" }} />
+            return (
+              <BsStar key={i} style={{ marginLeft: "1", color: "#319795" }} />
+            )
           })}
-      </Grid>
-      <Grid style={{ marginLeft: 4 }}>
-        <h5 style={{ margin: "2px 0 20px 0" }}>({numReviews})</h5>
+        <h5 style={{ margin: "2px 0 20px 0" }}>
+          {numReviews} review{numReviews > 1 && "s"}
+        </h5>
       </Grid>
     </Grid>
   )
 }
 
-const Card: React.FC = ({}) => {
+const Card: React.FC<ICard> = ({ data }: ICard) => {
   return (
     <div className={classes.Card}>
-      <Grid spacing={"xs"} container align="center" justify="space-between">
-        <Grid item xs={12} style={{ paddingTop: 0 }}>
-          <img
-            className={classes.CardImage}
-            src={data.imageURL}
-            alt={`Picture of ${data.name}`}
-          />
-        </Grid>
-        <Grid item xs={6} className={classes.Spacing}>
-          <span className={classes.BusinessText}>1. Rock n fellers</span>
-        </Grid>
-        <Grid item xs={6} className={classes.Spacing}>
-          <Rating rating={data.rating} numReviews={data.numReviews} />
-        </Grid>
-        <div style={{ paddingBottom: "1.75rem" }}>
-          <Grid item xs={6} className={classes.Spacing}>
+      <div className="FlexColCenter">
+        <img
+          className={classes.CardImage}
+          src={data.photos[0]}
+          alt={`Picture of ${data.name}`}
+        />
+        <div style={{ paddingLeft: "1rem", paddingRight: "1rem" }}>
+          <div
+            className="FlexRow"
+            style={{
+              gap: 12,
+              justifyContent: "space-between"
+            }}
+          >
+            <span className={classes.BusinessText}>{data.name}</span>
+            <Rating rating={data.rating} numReviews={data.review_count} />
+          </div>
+          <div style={{ position: "relative", bottom: 20 }}>
             <span className={classes.SecondaryText}>
               <FiPhoneCall
                 style={{ marginRight: 10, position: "relative", top: 2 }}
               />
-              3413104099
+              {data.display_phone ? data.display_phone : "Sin teléfono"}
             </span>
-          </Grid>
-          <Grid item xs={6} className={classes.Spacing}>
+          </div>
+          <div style={{ position: "relative", bottom: 20 }}>
             <span className={classes.SecondaryText}>
               {" "}
               <FaRegBuilding
                 style={{ marginRight: 10, position: "relative", top: 2 }}
               />
-              Avenida Juan Jose Paso
+              {data.location.address1}
             </span>
-          </Grid>
+          </div>
         </div>
-      </Grid>
+      </div>
     </div>
   )
 }

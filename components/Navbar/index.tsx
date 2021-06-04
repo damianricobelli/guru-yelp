@@ -7,8 +7,10 @@ import Button from "@components/Button"
 import useDisclousure from "@hooks/useDisclousure"
 
 import Grid from "@components/Grid"
+import { useRouter } from "next/router"
 
 const Navbar: React.FC = ({}) => {
+  const router = useRouter()
   const { isOpen, onToggle } = useDisclousure()
   const Menu = () => (
     <Grid container>
@@ -23,7 +25,7 @@ const Navbar: React.FC = ({}) => {
   return (
     <div className={classes.Navbar}>
       <Grid container align="center" justify="space-between">
-        <Grid item>
+        <Grid item onClick={() => router.push("/")}>
           <Logo />
         </Grid>
         <Grid item>

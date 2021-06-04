@@ -3,6 +3,7 @@
 .Logo {
   @include color("teal-500");
   margin-left: 1rem;
+  cursor: pointer;
   @include fontSize("4xl");
   @include fontWeight(700);
 }

@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
-import { GoLocation } from "react-icons/go"
-import { IAutocomplete } from "./interfaces"
+import React, { useEffect, useRef } from "react"
 
 import classes from "../../screens/Home.module.scss"
 
@@ -60,7 +58,6 @@ async function handlePlaceSelect(updateQuery: any, setQueryObject: any) {
     }
     updateQuery(formatted_address)
     setQueryObject(data)
-    console.log(data)
   } else {
     setQueryObject(false)
   }

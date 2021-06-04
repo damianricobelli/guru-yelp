@@ -5,8 +5,8 @@ interface IAddressComponents {
 }
 
 interface IGeometry {
-  latitude: string
-  longitude: string
+  lat: string
+  lng: string
 }
 
 export interface IAutocomplete {
