@@ -90,13 +90,6 @@ const Home: React.FC<HomeProps> = ({ initialBusiness }) => {
     setTerm(e.target.value)
   }
 
-  const handleSearchData = (e: any) => {
-    e.preventDefault()
-    search()
-  }
-
-  // const { currentData, setCurrentData } = useStoreData()
-
   if (data) {
     initialBusiness = data.search.business
   }
@@ -133,7 +126,7 @@ const Home: React.FC<HomeProps> = ({ initialBusiness }) => {
       </form>
       {!loading ? (
         <div className="GridContainer">
-          {initialBusiness?.map((item: IItem) => (
+          {initialBusiness.map((item: IItem) => (
             <div
               key={uuid()}
               style={{ paddingTop: 50 }}
