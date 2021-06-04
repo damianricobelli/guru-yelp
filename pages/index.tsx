@@ -14,7 +14,6 @@ interface IHome {
 }
 
 export default function Home({ location_data, initial_business }: IHome) {
-  console.log(initial_business)
   return (
     <div>
       <Head>

@@ -149,9 +149,15 @@ function RatingReview({ rating }: RatingProps) {
 
 const Item: React.FC<indexProps> = ({ item_data }: indexProps) => {
   console.log(item_data)
-  const openHours = item_data.hours[0].open
-  const indexedOpenHours = keyBy(openHours, "day")
-  console.log(indexedOpenHours)
+  const hours = item_data?.hours
+  let openHours = null
+  if (hours) {
+    openHours = hours[0]?.open
+  }
+  let indexedOpenHours = null
+  if (openHours) {
+    indexedOpenHours = keyBy(openHours, "day")
+  }
   const router = useRouter()
   return (
     <Grid container style={{ position: "relative" }}>
@@ -220,21 +226,27 @@ const Item: React.FC<indexProps> = ({ item_data }: indexProps) => {
                 marginTop: 14
               }}
             >
-              {Object.keys(indexedOpenHours).map((key: any) =>
-                indexedOpenHours[key].map((hour: IOpen) => (
-                  <div
-                    key={uuid()}
-                    className="FlexRowCenter"
-                    style={{
-                      gap: 12
-                    }}
-                  >
-                    <span style={{ fontWeight: 600 }}>{days[key]}:</span>
-                    <span style={{ fontWeight: 400 }}>
-                      {getHour(hour.start)} - {getHour(hour.end)}
-                    </span>
-                  </div>
-                ))
+              {indexedOpenHours ? (
+                Object.keys(indexedOpenHours).map((key: any) =>
+                  indexedOpenHours[key].map((hour: IOpen) => (
+                    <div
+                      key={uuid()}
+                      className="FlexRowCenter"
+                      style={{
+                        gap: 12
+                      }}
+                    >
+                      <span style={{ fontWeight: 600 }}>{days[key]}:</span>
+                      <span style={{ fontWeight: 400 }}>
+                        {getHour(hour.start)} - {getHour(hour.end)}
+                      </span>
+                    </div>
+                  ))
+                )
+              ) : (
+                <span style={{ fontWeight: 600 }}>
+                  El comercio no registró sus horarios
+                </span>
               )}
             </div>
           </div>
@@ -264,6 +276,7 @@ const Item: React.FC<indexProps> = ({ item_data }: indexProps) => {
             </div>
             {item_data.reviews.slice(0, 5).map((review: IReview) => (
               <div
+                key={uuid()}
                 className={classes.Review}
                 style={{
                   flexDirection: "column",
