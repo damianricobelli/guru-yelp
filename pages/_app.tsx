@@ -9,7 +9,6 @@ import "nprogress/nprogress.css"
 import { QueryClient, QueryClientProvider } from "react-query"
 import Layout from "@components/Layout"
 
-import { ApolloClient } from "@apollo/client"
 import { ApolloProvider } from "@apollo/client/react"
 import client from "apollo/apollo-client"
 

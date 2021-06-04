@@ -11,41 +11,7 @@ module.exports = {
   async headers() {
     return [
       {
-        source: "/:item",
-        headers: [
-          {
-            key: "X-Requested-With",
-            value: "XMLHttpRequest"
-          },
-          {
-            key: "Authorization",
-            value: `Bearer ${process.env.YELP_API_KEY}`
-          },
-          {
-            key: "Accept-Language",
-            value: "en-US"
-          }
-        ]
-      },
-      {
-        source: "/home/:path*",
-        headers: [
-          {
-            key: "X-Requested-With",
-            value: "XMLHttpRequest"
-          },
-          {
-            key: "Authorization",
-            value: `Bearer ${process.env.YELP_API_KEY}`
-          },
-          {
-            key: "Accept-Language",
-            value: "en-US"
-          }
-        ]
-      },
-      {
-        source: "/:path*",
+        source: "/(.*?)",
         headers: [
           {
             key: "X-Requested-With",
