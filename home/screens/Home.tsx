@@ -135,7 +135,7 @@ const Home: React.FC<HomeProps> = ({ initialBusiness }) => {
 
   const handleClickItem = (i: string) => {
     router.push({
-      pathname: "/[item]",
+      pathname: "/comercios/[item]",
       query: { item: i }
     })
   }
